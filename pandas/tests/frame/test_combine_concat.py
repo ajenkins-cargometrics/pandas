@@ -137,6 +137,21 @@ class TestDataFrameConcatCommon(tm.TestCase, TestData):
         expected = df1.copy()
         assert_frame_equal(result, expected)
 
+    def test_append_to_empty_dataframe_with_extension_types(self):
+        # Append to empty df
+        df1 = DataFrame()
+        df2 = DataFrame({'a': pd.Categorical(['a', 'b', 'a', 'c']),
+                         'b': pd.date_range('2015', periods=4, tz='utc')})
+        result = df1.append(df2)
+        expected = df2.copy()
+        assert_frame_equal(result, expected)
+
+        # Append to empty df with columns
+        df1 = DataFrame(columns=['a', 'b'])
+        result = df1.append(df2)
+        expected = df2.copy()
+        assert_frame_equal(result, expected)
+
     def test_append_dtypes(self):
 
         # GH 5754

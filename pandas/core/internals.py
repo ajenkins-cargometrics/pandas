@@ -4840,6 +4840,10 @@ def get_empty_dtype_and_na(join_units):
         else:
             upcast_cls = 'float'
 
+        # Numpy doesn't understand extension types
+        if is_extension_type(dtype):
+            dtype = dtype.base
+
         # Null blocks should not influence upcast class selection, unless there
         # are only null blocks, when same upcasting rules must be applied to
         # null upcast classes.
